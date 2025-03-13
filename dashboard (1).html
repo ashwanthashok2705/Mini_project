@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        #logout {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        #logout:hover {
+            background-color: #c0392b;
+        }
+        
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h2 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        p {
+            margin-bottom: 2rem;
+            color: #7f8c8d;
+        }
+        
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dropbox {
+            width: 400px;
+            height: 200px;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+            background-color: #ebf5fe;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dropbox:hover {
+            background-color: #d6eafd;
+            border-color: #2980b9;
+        }
+        
+        .dropbox i {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+        
+        .dropbox p {
+            margin: 0;
+            color: #3498db;
+            font-weight: 500;
+        }
+        
+        .dropbox small {
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+        
+        .source-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .source-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .source-button:hover {
+            background-color: #f8f9fa;
+            border-color: #bbb;
+        }
+        
+        .categories-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .categories-table th {
+            background-color: #34495e;
+            color: white;
+            text-align: left;
+            padding: 1rem;
+        }
+        
+        .categories-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .categories-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .category-count {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 100px;
+            font-size: 14px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .minor { background-color: #2ecc71; }
+        .moderate { background-color: #f39c12; }
+        .major { background-color: #e74c3c; }
+        
+        .categories-table button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .categories-table button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* For demo purposes */
+        .placeholder-image {
+            width: 50px;
+            height: 50px;
+            background-color: #eee;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <h1>Image Analysis Dashboard</h1>
+        <button id="logout">Logout</button>
+    </nav>
+
+    <section class="content">
+        <h2>Hello, User!</h2>
+        <p>Upload images for categorization and analysis.</p>
+        
+        <div class="upload-section">
+            <div class="dropbox" id="dropbox">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & Drop Images Here</p>
+                <small>or click to browse files</small>
+            </div>
+            
+            <div class="source-buttons">
+                <button class="source-button">
+                    <i class="fas fa-image"></i> Gallery
+                </button>
+                <button class="source-button">
+                    <i class="fab fa-google-drive"></i> Google Drive
+                </button>
+                <button class="source-button">
+                    <i class="fab fa-dropbox"></i> Dropbox
+                </button>
+                <button class="source-button">
+                    <i class="fas fa-camera"></i> Camera
+                </button>
+            </div>
+        </div>
+        
+        <h2>Categorized Images</h2>
+        <table class="categories-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Count</th>
+                    <th>Latest Uploads</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>Minor</strong>
+                        <span class="category-count minor">5</span>
+                    </td>
+                    <td>5 images</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <div class="placeholder-image">IMG</div>
+                            <div class="placeholder-image">IMG</div>
+                            <div class="placeholder-image">IMG</div>
+                        </div>
+                    </td>
+                    <td>
+                        <button>View All</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Moderate</strong>
+                        <span class="category-count moderate">12</span>
+                    </td>
+                    <td>12 images</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <div class="placeholder-image">IMG</div>
+                            <div class="placeholder-image">IMG</div>
+                            <div class="placeholder-image">IMG</div>
+                        </div>
+                    </td>
+                    <td>
+                        <button>View All</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Major</strong>
+                        <span class="category-count major">3</span>
+                    </td>
+                    <td>3 images</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <div class="placeholder-image">IMG</div>
+                            <div class="placeholder-image">IMG</div>
+                            <div class="placeholder-image">IMG</div>
+                        </div>
+                    </td>
+                    <td>
+                        <button>View All</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        // Simple JavaScript to demonstrate the dropbox functionality
+        const dropbox = document.getElementById('dropbox');
+        
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropbox.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        // Highlight drop area when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropbox.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropbox.addEventListener(eventName, unhighlight, false);
+        });
+        
+        // Handle dropped files
+        dropbox.addEventListener('drop', handleDrop, false);
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        function highlight() {
+            dropbox.style.backgroundColor = '#c6e2ff';
+            dropbox.style.borderColor = '#2076d2';
+        }
+        
+        function unhighlight() {
+            dropbox.style.backgroundColor = '#ebf5fe';
+            dropbox.style.borderColor = '#3498db';
+        }
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            // Here you would typically handle the files
+            console.log('Files dropped:', files);
+            // In a real application, you'd upload these files to your server
+            alert(`${files.length} file(s) selected for upload`);
+        }
+        
+        // Also handle click to select files
+        dropbox.addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.accept = 'image/*';
+            
+            input.onchange = function() {
+                if (this.files && this.files.length) {
+                    console.log('Files selected:', this.files);
+                    alert(`${this.files.length} file(s) selected for upload`);
+                }
+            };
+            
+            input.click();
+        });
+        
+        // Handle source buttons (in a real app, these would open different source pickers)
+        document.querySelectorAll('.source-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const source = this.textContent.trim();
+                alert(`Opening ${source} picker...`);
+            });
+        });
+    </script>
+
+</body>
+</html>
